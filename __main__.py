@@ -4,6 +4,10 @@ import subprocess
 import requests
 import yaml
 
+utility_dir = os.path.dirname(os.path.realpath(__file__))
+
+print(utility_dir)
+
 # TODO: Load configs from command-line args and YAML into here. Replace like "./docs" w/ entries from YAML config.
 configuration = {}
 
@@ -12,14 +16,13 @@ is_node_installed = False
 def load_configuration():
     pass
     # TODO: Load YAML (PSUEDOCODE BELOW)
-    #configuration = yaml.load(os.dirname(os.realpath(__file__)) + './default.config.yaml')
+    #configuration = yaml.load(utility_dir + '/default.config.yaml')
     #configuration.update(yaml.load(os.getcwd() + './documentation.config.yaml'))
-    #yaml.load(os.getcwd() + './documentation.config.yaml')
 
 # Install dependencies
 def install_dependencies():
     print("Updating dependencies")
-    result = subprocess.run(["pip3", "install", "-r", "./requirements.txt"])
+    result = subprocess.run(["pip3", "install", "-r", utility_dir + "/requirements.txt"])
     if (result.returncode == 0):
         print('Successfully installed dependencies!')
         return True
@@ -39,9 +42,9 @@ def install_node_js():
         # Not installed.
         is_node_installed = False
         return
-        
+
         # TODO: Keep below or not? Lets not install node for users and if no node installed, pretend we don't do JSdoc.
-        result_download = subprocess.run(["curl", "http://nodejs.org/dist/node-latest.tar.gz", "-o", "node-latest.tar.gz"])
+        result_download = subprocess.run(["curl", "http://nodejs.org/dist/node-latest.tar.gz", "-o", utility_dir + "/node-latest.tar.gz"])
         print(result_download)
         result_unpack = subprocess.run(["tar", "xvzf", "node-latest.tar.gz"])
         result_remove = subprocess.run(["rm", "node-latest.tar.gz"])
@@ -73,7 +76,7 @@ def install_js_dependencies():
 
 def run_build():
     print("Running build")
-    result = subprocess.run(["sphinx-build", "-b", "html", "./docs", "./docs/documentation_build"])
+    result = subprocess.run(["sphinx-build", "-b", "html", utility_dir + "/docs", utility_dir + "/docs/documentation_build"])
     if (result.returncode == 0):
         print('Successfully generated HTML files!')
         return True
