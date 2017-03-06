@@ -1,0 +1,19 @@
+
+project_version : 0.1
+project_author : "HMS-DBMI"
+project_name : "Documentation"               # Project Name
+
+documentation_directory : "./documentation/" # Where output and other documentation files will live (temporarily).
+
+# Define what each section in nav-menu contains.
+sections : [
+    {
+        "title" : "Getting Started",
+        "path" : "./README.md",
+        "order" : 0
+    },
+    {
+        "title" : "Basic Usage",
+        "path" : "./docs/usage.md"
+    }
+]
