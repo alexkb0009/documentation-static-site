@@ -7,6 +7,8 @@ import yaml
 # TODO: Load configs from command-line args and YAML into here. Replace like "./docs" w/ entries from YAML config.
 configuration = {}
 
+is_node_installed = False
+
 def load_configuration():
     pass
     # TODO: Load YAML (PSUEDOCODE BELOW)
@@ -26,13 +28,19 @@ def install_dependencies():
         return False
 
 def install_node_js():
+
     try:
-        result = subprocess.run(["noded", "-v"])
+        result = subprocess.run(["node", "-v"])
         if result.returncode == 0:
-            print("Node.js installed, skipping.")
+            print("Node.js is installed.")
+            is_node_installed = True
             return True
     except:
         # Not installed.
+        is_node_installed = False
+        return
+        
+        # TODO: Keep below or not? Lets not install node for users and if no node installed, pretend we don't do JSdoc.
         result_download = subprocess.run(["curl", "http://nodejs.org/dist/node-latest.tar.gz", "-o", "node-latest.tar.gz"])
         print(result_download)
         result_unpack = subprocess.run(["tar", "xvzf", "node-latest.tar.gz"])
