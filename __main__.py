@@ -65,7 +65,9 @@ def install_node_js():
         print(os.getcwd())
 
 def install_js_dependencies():
-    result_install_jsdoc_sphinx = subprocess.run(["npm", "install", "-g", "jsdoc", "jsdoc-sphinx"])
+    os.chdir(utility_dir)
+    result_install_jsdoc_sphinx = subprocess.run(["npm", "install", "jsdoc", "jsdoc-sphinx"])
+    os.chdir(current_dir)
     if result_install_jsdoc_sphinx.returncode == 0:
         return True
     else:
