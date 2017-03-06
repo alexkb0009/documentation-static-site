@@ -6,18 +6,16 @@ import yaml
 
 utility_dir = os.path.dirname(os.path.realpath(__file__))
 
-print(utility_dir)
-
-# TODO: Load configs from command-line args and YAML into here. Replace like "./docs" w/ entries from YAML config.
-configuration = {}
-
-is_node_installed = False
 
 def load_configuration():
-    pass
-    # TODO: Load YAML (PSUEDOCODE BELOW)
-    #configuration = yaml.load(utility_dir + '/default.config.yaml')
+    #pass
+    configuration = {}
+    with open(utility_dir + "/default.config.yml", 'r') as stream:
+        configuration = yaml.load(stream)
+    
+    print(configuration)
     #configuration.update(yaml.load(os.getcwd() + './documentation.config.yaml'))
+    return configuration
 
 # Install dependencies
 def install_dependencies():
@@ -41,7 +39,7 @@ def install_node_js():
     except:
         # Not installed.
         is_node_installed = False
-        return
+        return False
 
         # TODO: Keep below or not? Lets not install node for users and if no node installed, pretend we don't do JSdoc.
         result_download = subprocess.run(["curl", "http://nodejs.org/dist/node-latest.tar.gz", "-o", utility_dir + "/node-latest.tar.gz"])
@@ -66,13 +64,17 @@ def install_node_js():
         print(os.getcwd())
 
 def install_js_dependencies():
-    result_install_jsdoc = subprocess.run(["npm", "install", "jsdoc"])
-    result_install_jsdoc_sphinx = subprocess.run(["npm", "install", "jsdoc-sphinx"])
+    result_install_jsdoc = subprocess.run(["npm", "install", "-g", "jsdoc"])
+    result_install_jsdoc_sphinx = subprocess.run(["npm", "install", "-g", "jsdoc-sphinx"])
     if result_install_jsdoc_sphinx.returncode == 0:
         return True
     else:
         return False
 
+
+def generate_jsdoc_rsts():
+    print("Compiling JSDoc reference to RST,")
+    result = subprocess.run(["jsdoc", "-t", utility_dir + "/node_modules/jsdoc-sphinx/template", "-d", utility_dir + "/docs/jsdoc"])
 
 def run_build():
     print("Running build")
@@ -105,8 +107,16 @@ if not install_successful:
 
 
 # TODO : Sphinx-build -> HTML
-js_install_successfull = install_node_js()
-js_dependencies_install_successfull = install_js_dependencies()
+
+configuration = load_configuration()
+#js_install_successfull = install_node_js()
+
+if js_install_successfull:
+    js_dependencies_install_successfull = install_js_dependencies() # Make sure JSDoc and JSDoc-sphinx installed
+    generate_jsdoc_rsts()
+
+
+
 #build_successful = run_build()
 
 print("Finished successfully. Shutting down.")
