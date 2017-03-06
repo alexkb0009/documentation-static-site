@@ -62,6 +62,7 @@ instance/
 
 # Node
 node-v*
+node_modules/
 
 # Sphinx documentation
 docs/_build/
