@@ -2,6 +2,9 @@ import argparse
 import subprocess
 import yaml
 
+# TODO: Load configs from command-line args and YAML into here. Replace like "./docs" w/ entries from YAML config.
+configuration = {}
+
 # Install dependencies
 def install_dependencies():
     print("Updating dependencies")
@@ -18,8 +21,18 @@ def load_configuration():
     # TODO: Load YAML
     #yaml.load()
 
+def run_build():
+    print("Running build")
+    result = subprocess.run(["sphinx-build", "-b", "html", "./docs", "./docs/documentation_build"])
+    if (result.returncode == 0):
+        print('Successfully generated HTML files!')
+        return True
+    else:
+        result.check_returncode()
+        return False
 
-configuration = {}
+
+
 
 
 print("Running document static site generator...")
@@ -36,4 +49,9 @@ if not install_successful:
 # TODO: Generate /documentation/ dir full of required RST files.
 #   TODO: Sphinx autodoc for PyDoc -> RST files
 #   TODO: JSDoc-> RST Files
+
+
 # TODO : Sphinx-build -> HTML
+build_successful = run_build()
+
+print("Finished successfully. Shutting down.")
