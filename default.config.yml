@@ -6,7 +6,7 @@ project_name : "Documentation"               # Project Name
 documentation_directory : "./docs/" # Where output and other documentation files will live (temporarily).
 output_directory : "./documentation/"
 
-javascript_root_directory : "./src/encoded/static/" # Fourfront JS directory
+javascript_root_directory : "./src/encoded/static/components" # Fourfront JS directory
 
 # Define what each section in nav-menu contains.
 sections : [

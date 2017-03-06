@@ -80,6 +80,7 @@ def generate_jsdoc_rsts():
         "jsdoc",
         "-t", utility_dir + "/node_modules/jsdoc-sphinx/template",
         "-d", utility_dir + "/docs/jsdoc",
+        "-c", utility_dir + "/jsdoc.config.json",
         "-r",
         current_dir + "/" + configuration.get('javascript_root_directory','')])
 
@@ -122,8 +123,6 @@ if js_install_successfull:
     js_dependencies_install_successfull = install_js_dependencies() # Make sure JSDoc and JSDoc-sphinx installed
     generate_jsdoc_rsts()
 
-
-
-#build_successful = run_build()
+build_successful = run_build()
 
 print("Finished successfully. Shutting down.")
