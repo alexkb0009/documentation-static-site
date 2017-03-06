@@ -60,6 +60,9 @@ instance/
 # Scrapy stuff:
 .scrapy
 
+# Node
+node-v*
+
 # Sphinx documentation
 docs/_build/
 docs/documentation_build/*
