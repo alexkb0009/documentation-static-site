@@ -1,9 +1,18 @@
 import argparse
+import os
 import subprocess
+import requests
 import yaml
 
 # TODO: Load configs from command-line args and YAML into here. Replace like "./docs" w/ entries from YAML config.
 configuration = {}
+
+def load_configuration():
+    pass
+    # TODO: Load YAML (PSUEDOCODE BELOW)
+    #configuration = yaml.load(os.dirname(os.realpath(__file__)) + './default.config.yaml')
+    #configuration.update(yaml.load(os.getcwd() + './documentation.config.yaml'))
+    #yaml.load(os.getcwd() + './documentation.config.yaml')
 
 # Install dependencies
 def install_dependencies():
@@ -16,10 +25,43 @@ def install_dependencies():
         result.check_returncode()
         return False
 
-def load_configuration():
-    pass
-    # TODO: Load YAML
-    #yaml.load()
+def install_node_js():
+    try:
+        result = subprocess.run(["noded", "-v"])
+        if result.returncode == 0:
+            print("Node.js installed, skipping.")
+            return True
+    except:
+        # Not installed.
+        result_download = subprocess.run(["curl", "http://nodejs.org/dist/node-latest.tar.gz", "-o", "node-latest.tar.gz"])
+        print(result_download)
+        result_unpack = subprocess.run(["tar", "xvzf", "node-latest.tar.gz"])
+        result_remove = subprocess.run(["rm", "node-latest.tar.gz"])
+        current_dir = os.getcwd()
+        child_dirs = os.listdir(current_dir)
+        valid_child_dirs = [ d for d in child_dirs if 'node-v' in d ]
+        if len(valid_child_dirs) < 1:
+            raise Exception("No node installation available")
+        #os.chdir(valid_child_dirs[0])
+        result_config = subprocess.run(["./" + valid_child_dirs[0] + "/configure", "--prefix", current_dir + '/node-installation', '--with-intl', 'none'])
+        result_install = subprocess.run(["make", "-C", valid_child_dirs[0]])
+        # TODO: clean this up(?)
+
+        if result_install.returncode == 0:
+            return True
+        else:
+            return False
+        
+        print(os.getcwd())
+
+def install_js_dependencies():
+    result_install_jsdoc = subprocess.run(["npm", "install", "jsdoc"])
+    result_install_jsdoc_sphinx = subprocess.run(["npm", "install", "jsdoc-sphinx"])
+    if result_install_jsdoc_sphinx.returncode == 0:
+        return True
+    else:
+        return False
+
 
 def run_build():
     print("Running build")
@@ -52,6 +94,8 @@ if not install_successful:
 
 
 # TODO : Sphinx-build -> HTML
-build_successful = run_build()
+js_install_successfull = install_node_js()
+js_dependencies_install_successfull = install_js_dependencies()
+#build_successful = run_build()
 
 print("Finished successfully. Shutting down.")
