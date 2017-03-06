@@ -5,6 +5,7 @@ import requests
 import yaml
 
 utility_dir = os.path.dirname(os.path.realpath(__file__))
+current_dir = os.getcwd()
 
 
 def load_configuration():
@@ -64,8 +65,7 @@ def install_node_js():
         print(os.getcwd())
 
 def install_js_dependencies():
-    result_install_jsdoc = subprocess.run(["npm", "install", "-g", "jsdoc"])
-    result_install_jsdoc_sphinx = subprocess.run(["npm", "install", "-g", "jsdoc-sphinx"])
+    result_install_jsdoc_sphinx = subprocess.run(["npm", "install", "-g", "jsdoc", "jsdoc-sphinx"])
     if result_install_jsdoc_sphinx.returncode == 0:
         return True
     else:
@@ -74,7 +74,14 @@ def install_js_dependencies():
 
 def generate_jsdoc_rsts():
     print("Compiling JSDoc reference to RST,")
-    result = subprocess.run(["jsdoc", "-t", utility_dir + "/node_modules/jsdoc-sphinx/template", "-d", utility_dir + "/docs/jsdoc"])
+    print(current_dir)
+    print(configuration.get('javascript_root_directory',''))
+    result = subprocess.run([
+        "jsdoc",
+        "-t", utility_dir + "/node_modules/jsdoc-sphinx/template",
+        "-d", utility_dir + "/docs/jsdoc",
+        "-r",
+        current_dir + "/" + configuration.get('javascript_root_directory','')])
 
 def run_build():
     print("Running build")
@@ -109,7 +116,7 @@ if not install_successful:
 # TODO : Sphinx-build -> HTML
 
 configuration = load_configuration()
-#js_install_successfull = install_node_js()
+js_install_successfull = install_node_js()
 
 if js_install_successfull:
     js_dependencies_install_successfull = install_js_dependencies() # Make sure JSDoc and JSDoc-sphinx installed
