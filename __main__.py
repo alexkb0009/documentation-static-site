@@ -3,9 +3,14 @@ import os
 import subprocess
 import requests
 import yaml
+from jinja2 import Environment, PackageLoader, select_autoescape
 
 utility_dir = os.path.dirname(os.path.realpath(__file__))
 current_dir = os.getcwd()
+jinja_env = Environment(
+    autoescape=select_autoescape(['html', 'xml']),
+    loader=PackageLoader(__name__, '.')
+)
 
 
 def load_configuration():
@@ -81,14 +86,27 @@ def generate_jsdoc_rsts():
     result = subprocess.run([
         utility_dir + "/node_modules/.bin/jsdoc",
         "-t", utility_dir + "/node_modules/jsdoc-sphinx/template",
-        "-d", utility_dir + "/docs/jsdoc",
+        "-d", utility_dir + "/generated_docs/jsdoc",
         "-c", utility_dir + "/jsdoc.config.json",
         "-r",
         current_dir + "/" + configuration.get('javascript_root_directory','')])
 
+def generate_index_rst():
+    template = jinja_env.get_template("index_template.rst")
+    with open(utility_dir + "/generated_docs/index.rst", 'w') as indexFile:
+        indexFile.write(template.render(
+            title=configuration.get('project_name',"No Project Name Specified"),
+            js_is_documented=js_install_successfull
+        ))
+
 def run_build():
     print("Running build")
-    result = subprocess.run(["sphinx-build", "-b", "html", utility_dir + "/docs", utility_dir + "/docs/documentation_build"])
+    result = subprocess.run([
+        "sphinx-build",
+        "-b", "html",
+        utility_dir + "/generated_docs",
+        current_dir + '/' + configuration.get('output_directory',"generated_documentation")
+    ])
     if (result.returncode == 0):
         print('Successfully generated HTML files!')
         return True
@@ -125,6 +143,7 @@ if js_install_successfull:
     js_dependencies_install_successfull = install_js_dependencies() # Make sure JSDoc and JSDoc-sphinx installed
     generate_jsdoc_rsts()
 
+generate_index_rst()
 build_successful = run_build()
 
 print("Finished successfully. Shutting down.")
