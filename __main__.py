@@ -3,6 +3,7 @@ import os
 import subprocess
 import requests
 import yaml
+import shutil
 from jinja2 import Environment, PackageLoader, select_autoescape
 
 utility_dir = os.path.dirname(os.path.realpath(__file__))
@@ -131,12 +132,10 @@ def generate_pydoc_rsts():
     print(result)
     #add_path_to_conf()
 
-# TODO:
 def copy_static_docs():
-    pass
-    #for section in configuration.get('sections', []):
-        # TODO: move section['path'] to utility_dir + '/generated_docs'
-
+    for section in configuration.get('sections', []):
+        if os.path.isfile(section['path']):
+            shutil.copyfile(section['path'], utility_dir + "/generated_docs/" + section['saveAs'])
 
 def generate_index_rst():
     template = jinja_env.get_template("index_template.rst")
