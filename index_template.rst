@@ -3,12 +3,15 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Documentation Static Site Generator's documentation!
+
+Welcome to {{ title }}'s documentation!
 ===============================================================
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
+
+   jsdoc/index
 
 
 
@@ -16,5 +19,6 @@ Indices and tables
 ==================
 
 * :ref:`genindex`
+{% if js_is_documented %}* `JavaScript Documentation <jsdoc/index.html>`_{% endif %}
 * :ref:`modindex`
 * :ref:`search`

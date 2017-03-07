@@ -54,7 +54,7 @@ templates_path = ['documentation_templates']
 source_suffix = ['.md', '.rst']
 
 # The master toctree document.
-master_doc = 'introduction'
+master_doc = 'index'
 
 # General information about the project.
 project = 'Documentation Static Site Generator'
