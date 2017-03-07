@@ -11,8 +11,10 @@ Welcome to {{ title }}'s documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   static_documentation_contents
    jsdoc/index
    pydoc/modules
+   
 
 
 
@@ -23,4 +25,3 @@ Indices and tables
 {% if js_is_documented %}* `JavaScript Documentation <jsdoc/index.html>`_{% endif %}
 * :ref:`modindex`
 * :ref:`search`
-

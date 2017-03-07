@@ -3,6 +3,7 @@ import os
 import subprocess
 import requests
 import yaml
+import shutil
 from jinja2 import Environment, PackageLoader, select_autoescape
 
 utility_dir = os.path.dirname(os.path.realpath(__file__))
@@ -143,19 +144,28 @@ def generate_pydoc_rsts():
     print(result)
     #add_path_to_conf()
 
-# TODO:
 def copy_static_docs():
-    pass
-    #for section in configuration.get('sections', []):
-        # TODO: move section['path'] to utility_dir + '/generated_docs'
+    sections_with_docs = []
+    for section in configuration.get('sections', []):
+        if os.path.isfile(section['path']):
+            sections_with_docs.append(section)
+            shutil.copyfile(section['path'], utility_dir + "/generated_docs/" + section['saveAs'])
+    return sections_with_docs
 
+def generate_static_docs_index_rst():
+    template = jinja_env.get_template("static_docs_index_template.rst")
+    with open(utility_dir + "/generated_docs/static_documentation_contents.rst", 'w') as indexFile:
+        indexFile.write(template.render(
+            sections = sections
+        ))
 
 def generate_index_rst():
     template = jinja_env.get_template("index_template.rst")
     with open(utility_dir + "/generated_docs/index.rst", 'w') as indexFile:
         indexFile.write(template.render(
             title=configuration.get('project_name',"No Project Name Specified"),
-            js_is_documented=js_install_successfull
+            js_is_documented=js_install_successfull,
+            sections = sections
         ))
 
 
@@ -196,18 +206,31 @@ if not install_successful:
 
 # TODO : Sphinx-build -> HTML
 
+# Load config
 configuration = load_configuration()
+
+# Setup JSDoc if Node is available
 js_install_successfull = install_node_js()
 
+# Remove existing files/dirs from generated_docs except for conf.py
 cleanup_rst_directory()
 
+# If Node is available, doublecheck & install JS dependencies (JSDoc) and generate JS reference.
 if js_install_successfull:
     js_dependencies_install_successfull = install_js_dependencies() # Make sure JSDoc and JSDoc-sphinx installed
     generate_jsdoc_rsts()
 
+# Generate PyDoc reference.
 pyapi_rst_success = generate_pydoc_rsts()  # generate rst files for specified python project
 
+# Copy over static pages & docs.
+sections = copy_static_docs()
+generate_static_docs_index_rst()
+
+# Generate homepage with appropriate project name, etc.
 generate_index_rst()
+
+# Output to HTML
 build_successful = run_build()
 
 print("Finished successfully. Shutting down.")

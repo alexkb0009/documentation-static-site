@@ -1,3 +1,4 @@
 sphinx==1.5.3
 pyyaml>=3.08
 jinja2>=2.9
+recommonmark>=0.4
