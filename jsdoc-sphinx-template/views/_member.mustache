@@ -1,8 +1,19 @@
 
+{{^ignore}}
+
 {{#rstReference}}
 .. _{{rstReference}}:
 {{/rstReference}}
 
-{{#h3}}{{#titlecase}}{{type}}{{/titlecase}}: ``{{name}}``{{/h3}}
+{{#h3}}{{#private}}Private {{/private}}``{{name}}``{{/h3}}
 
 {{description}}
+
+{{ #properties }}
+
+{{#h4}}{{name}}{{/h4}}
+{{description}}
+
+{{ /properties }}
+
+{{/ignore}}

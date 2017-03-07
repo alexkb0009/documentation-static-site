@@ -6,8 +6,9 @@
 
 {{/rstReference}}
 
-{{#h3}}``{{name}}``{{/h3}}
+{{#h3}}{{#titlecase}}{{#private}}private: {{/private}}{{/titlecase}}``{{name}}``{{/h3}}
 
+{{ private }}
 {{description}}
 
 .. js:function:: {{signature}}
