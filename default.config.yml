@@ -18,14 +18,12 @@ javascript_root_directory : "./src/encoded/static/components/viz" # Fourfront JS
 sections : [
     {
         "title" : "Getting Started",
-        "path" : "./README.md"
+        "path" : "./README.md",
+        "saveAs" : "getting-started.md"
     },
     {
         "title" : "Basic Usage",
-        "path" : "./docs/usage.md"
-    },
-    {
-        "title": "PyDoc",
-        "path" : "./docs/"
+        "path" : "./docs/usage.md",
+        "saveAs" : "usage.md"
     }
 ]
