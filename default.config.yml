@@ -8,10 +8,9 @@ project_version : 0.1
 project_author : "HMS-DBMI"
 project_name : "Sample Project To Document"  # Project Name
 
-documentation_directory : "./docs/"          # Where auxiliary static docs are located (needed? since using sections below)
 output_directory : "./documentation/"        # Save output here
 
-python_project_directory : "./src/encoded"
+python_project_directory : "./src/encoded/types"
 javascript_root_directory : "./src/encoded/static/components/viz" # Fourfront JS directory
 
 # Define what each section in nav-menu contains.

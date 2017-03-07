@@ -4,8 +4,8 @@
    contain the root `toctree` directive.
 
 
-Welcome to {{ title }}'s documentation!
-===============================================================
+Documentation for {{ title }}
+=============================
 
 .. toctree::
    :maxdepth: 2

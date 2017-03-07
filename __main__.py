@@ -145,20 +145,28 @@ def generate_pydoc_rsts():
     python_dir = os.path.abspath(current_dir + '/' + configuration.get('python_project_directory','.'))
     print(python_dir)
     import sys
+    sys.path.insert(0, os.path.abspath(python_dir + "/.."))
     sys.path.insert(0, python_dir)
     #sys.path.append(os.path.join(current_dir, '..'))
     
-    result = subprocess.run(['sphinx-apidoc', '-e', '-o', utility_dir + '/generated_docs/pydoc',
-                             python_dir])
-    print(result)
+    result = subprocess.run([
+        'sphinx-apidoc', '-e', '-a', '--implicit-namespaces',
+        "-H", configuration.get('project_name',"No Project Name Specified"),
+        "-V", str(configuration.get('project_version', "1")),
+        "-A", configuration.get('project_author', "HMS-DBMI"),
+        '-o', utility_dir + '/generated_docs/pydoc',
+        python_dir
+    ])
     #add_path_to_conf()
 
 def copy_static_docs():
     sections_with_docs = []
     for section in configuration.get('sections', []):
+        print(section['path'])
+        print(os.path.abspath(utility_dir + "/generated_docs/" + section['saveAs']))
         if os.path.isfile(section['path']):
             sections_with_docs.append(section)
-            shutil.copyfile(section['path'], utility_dir + "/generated_docs/" + section['saveAs'])
+            shutil.copyfile(section['path'], os.path.abspath(utility_dir + "/generated_docs/" + section['saveAs']))
     return sections_with_docs
 
 def generate_static_docs_index_rst():
@@ -183,6 +191,9 @@ def run_build():
     result = subprocess.run([
         "sphinx-build",
         "-b", "html",
+        "-D", "project=" + configuration.get('project_name',"No Project Name Specified"),
+        "-D", "author=" + configuration.get('project_author', "HMS-DBMI"),
+        "-D", "copyright=2017 HMS-DBMI",
         utility_dir + "/generated_docs",
         current_dir + '/' + configuration.get('output_directory',"generated_documentation")
     ])
