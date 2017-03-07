@@ -22,8 +22,8 @@ sections : [
         "saveAs" : "getting-started.md"
     },
     {
-        "title" : "Basic Usage",
-        "path" : "./docs/usage.md",
-        "saveAs" : "usage.md"
+        "title" : "ElasticBeanstalk Deployment",
+        "path" : "./docs/beanstalk-deployment.md",
+        "saveAs" : "beanstalk-deployment.md"
     }
 ]
