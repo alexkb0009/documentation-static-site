@@ -16,7 +16,6 @@ Welcome to {{ title }}'s documentation!
 
 
 
-
 Indices and tables
 ==================
 

@@ -16,7 +16,6 @@ Welcome to Sample Project To Document's documentation!
 
 
 
-
 Indices and tables
 ==================
 

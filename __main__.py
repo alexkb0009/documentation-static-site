@@ -120,13 +120,14 @@ def add_path_to_conf():
 
 def generate_pydoc_rsts():
     print("Compiling PyDoc reference to RST, ")
-    print(current_dir)
-    #import sys
-    #sys.path.insert(0, current_dir + "/src/encoded")
+    python_dir = os.path.abspath(current_dir + '/' + configuration.get('python_project_directory','.'))
+    print(python_dir)
+    import sys
+    sys.path.insert(0, python_dir)
     #sys.path.append(os.path.join(current_dir, '..'))
     
     result = subprocess.run(['sphinx-apidoc', '-e', '-o', utility_dir + '/generated_docs/pydoc',
-                             configuration.get('python_project_directory')])
+                             python_dir])
     print(result)
     #add_path_to_conf()
 
