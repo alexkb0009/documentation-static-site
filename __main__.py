@@ -85,7 +85,7 @@ def generate_jsdoc_rsts():
     print(configuration.get('javascript_root_directory',''))
     result = subprocess.run([
         utility_dir + "/node_modules/.bin/jsdoc",
-        "-t", utility_dir + "/node_modules/jsdoc-sphinx/template",
+        "-t", utility_dir + "/jsdoc-sphinx-template",
         "-d", utility_dir + "/generated_docs/jsdoc",
         "-c", utility_dir + "/jsdoc.config.json",
         "-r",
