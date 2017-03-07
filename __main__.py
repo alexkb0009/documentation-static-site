@@ -93,8 +93,8 @@ def generate_jsdoc_rsts():
 
 
 def add_path_to_conf():
-    old = utility_dir + '/docs/conf.py'
-    new = utility_dir + '/docs/tmp_conf.py'
+    old = utility_dir + '/generated_docs/conf.py'
+    new = utility_dir + '/generated_docs/tmp_conf.py'
     done = False
     # first check the file to see if it already has a sys.path.insert line
     with open(old, 'r') as o:
@@ -121,10 +121,20 @@ def add_path_to_conf():
 def generate_pydoc_rsts():
     print("Compiling PyDoc reference to RST, ")
     print(current_dir)
-    result = subprocess.run(['sphinx-apidoc', '-e', '-o', utility_dir + '/docs/pydoc',
+    #import sys
+    #sys.path.insert(0, current_dir + "/src/encoded")
+    #sys.path.append(os.path.join(current_dir, '..'))
+    
+    result = subprocess.run(['sphinx-apidoc', '-e', '-o', utility_dir + '/generated_docs/pydoc',
                              configuration.get('python_project_directory')])
     print(result)
-    add_path_to_conf()
+    #add_path_to_conf()
+
+# TODO:
+def copy_static_docs():
+    pass
+    #for section in configuration.get('sections', []):
+        # TODO: move section['path'] to utility_dir + '/generated_docs'
 
 
 def generate_index_rst():
@@ -174,11 +184,11 @@ if not install_successful:
 # TODO : Sphinx-build -> HTML
 
 configuration = load_configuration()
-#js_install_successfull = install_node_js()
+js_install_successfull = install_node_js()
 
-#if js_install_successfull:
-#    js_dependencies_install_successfull = install_js_dependencies() # Make sure JSDoc and JSDoc-sphinx installed
-#    generate_jsdoc_rsts()
+if js_install_successfull:
+    js_dependencies_install_successfull = install_js_dependencies() # Make sure JSDoc and JSDoc-sphinx installed
+    generate_jsdoc_rsts()
 
 pyapi_rst_success = generate_pydoc_rsts()  # generate rst files for specified python project
 

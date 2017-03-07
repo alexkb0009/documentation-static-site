@@ -65,8 +65,10 @@ node-v*
 node_modules/
 
 # Sphinx documentation
-docs/_build/
-docs/documentation_build/*
+generated_docs/_build/
+generated_docs/documentation_build/*
+generated_docs/jsdoc/
+generated_docs/pydoc/
 
 # PyBuilder
 target/
