@@ -4,15 +4,16 @@
    contain the root `toctree` directive.
 
 
-Welcome to Sample Project To Document's documentation!
+Welcome to 4D Nucleome Portal's documentation!
 ===============================================================
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
 
+   static_documentation_contents
    jsdoc/index
    pydoc/modules
+   
 
 
 
@@ -20,6 +21,5 @@ Indices and tables
 ==================
 
 * :ref:`genindex`
-* `JavaScript Documentation <jsdoc/index.html>`_
 * :ref:`modindex`
 * :ref:`search`

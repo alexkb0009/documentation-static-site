@@ -18,8 +18,8 @@ javascript_root_directory : "./src/encoded/static/components/viz" # Fourfront JS
 sections : [
     {
         "title" : "Getting Started",
-        "path" : "./README.md",
-        "saveAs" : "getting-started.md"
+        "path" : "./README.rst",
+        "saveAs" : "getting-started.rst"
     },
     {
         "title" : "ElasticBeanstalk Deployment",

@@ -1,6 +1,6 @@
 
-Documents
-=========
+Pages
+=====
 
 .. toctree::
    :maxdepth: 2

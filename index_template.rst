@@ -9,7 +9,6 @@ Welcome to {{ title }}'s documentation!
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
 
    static_documentation_contents
    jsdoc/index
@@ -22,6 +21,5 @@ Indices and tables
 ==================
 
 * :ref:`genindex`
-{% if js_is_documented %}* `JavaScript Documentation <jsdoc/index.html>`_{% endif %}
 * :ref:`modindex`
 * :ref:`search`

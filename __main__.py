@@ -17,8 +17,17 @@ jinja_env = Environment(
 def load_configuration():
     #pass
     configuration = {}
+    project_config = None
     with open(utility_dir + "/default.config.yml", 'r') as stream:
         configuration = yaml.load(stream)
+
+    try:
+        with open(current_dir + "/documentation.config.yml", 'r') as stream:
+            project_config = yaml.load(stream)
+        if project_config is not None:
+            configuration.update(project_config)
+    except Exception as e:
+        print(e)
 
     print(configuration)
     #configuration.update(yaml.load(os.getcwd() + './documentation.config.yaml'))
