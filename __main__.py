@@ -80,6 +80,18 @@ def install_js_dependencies():
         return False
 
 
+def cleanup_rst_directory():
+    for root, dirs, files in os.walk(utility_dir + '/generated_docs', topdown=False):
+        for name in files:
+            if name == 'conf.py' and root == utility_dir + '/generated_docs':
+                continue
+            else:
+                os.remove(os.path.join(root, name))
+        for name in dirs:
+            if name not in ['documentation_static', 'documentation_templates']:
+                os.rmdir(os.path.join(root, name))
+
+
 def generate_jsdoc_rsts():
     print("Compiling JSDoc reference to RST,")
     print(current_dir)
@@ -185,6 +197,8 @@ if not install_successful:
 
 configuration = load_configuration()
 js_install_successfull = install_node_js()
+
+cleanup_rst_directory()
 
 if js_install_successfull:
     js_dependencies_install_successfull = install_js_dependencies() # Make sure JSDoc and JSDoc-sphinx installed
