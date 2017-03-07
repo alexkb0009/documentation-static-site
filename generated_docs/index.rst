@@ -12,6 +12,8 @@ Welcome to Sample Project To Document's documentation!
    :caption: Contents:
 
    jsdoc/index
+   pydoc/modules
+
 
 
 

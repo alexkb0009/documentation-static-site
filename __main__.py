@@ -18,7 +18,7 @@ def load_configuration():
     configuration = {}
     with open(utility_dir + "/default.config.yml", 'r') as stream:
         configuration = yaml.load(stream)
-    
+
     print(configuration)
     #configuration.update(yaml.load(os.getcwd() + './documentation.config.yaml'))
     return configuration
@@ -66,7 +66,7 @@ def install_node_js():
             return True
         else:
             return False
-        
+
         print(os.getcwd())
 
 def install_js_dependencies():
@@ -91,6 +91,52 @@ def generate_jsdoc_rsts():
         "-r",
         current_dir + "/" + configuration.get('javascript_root_directory','')])
 
+
+def add_path_to_conf():
+    old = utility_dir + '/generated_docs/conf.py'
+    new = utility_dir + '/generated_docs/tmp_conf.py'
+    done = False
+    # first check the file to see if it already has a sys.path.insert line
+    with open(old, 'r') as o:
+        for line in o:
+            if line.startswith('sys.path.insert'):
+                if configuration.get('python_project_directory') in line:
+                    done = True
+                    break
+    if not done:
+        with open(old, 'r') as f:
+            with open(new, 'w') as w:
+                blank = False
+                for line in f:
+                    w.write(line)
+                    if not line.startswith('#'):
+                        if not blank:
+                            comm = "import os\nimport sys\nsys.path.insert(0, os.path.abspath('" + \
+                                    configuration.get('python_project_directory') + "'))\n"
+                            w.write(comm)
+                            blank = True
+        os.rename(new, old)
+
+
+def generate_pydoc_rsts():
+    print("Compiling PyDoc reference to RST, ")
+    print(current_dir)
+    #import sys
+    #sys.path.insert(0, current_dir + "/src/encoded")
+    #sys.path.append(os.path.join(current_dir, '..'))
+    
+    result = subprocess.run(['sphinx-apidoc', '-e', '-o', utility_dir + '/generated_docs/pydoc',
+                             configuration.get('python_project_directory')])
+    print(result)
+    #add_path_to_conf()
+
+# TODO:
+def copy_static_docs():
+    pass
+    #for section in configuration.get('sections', []):
+        # TODO: move section['path'] to utility_dir + '/generated_docs'
+
+
 def generate_index_rst():
     template = jinja_env.get_template("index_template.rst")
     with open(utility_dir + "/generated_docs/index.rst", 'w') as indexFile:
@@ -98,6 +144,7 @@ def generate_index_rst():
             title=configuration.get('project_name',"No Project Name Specified"),
             js_is_documented=js_install_successfull
         ))
+
 
 def run_build():
     print("Running build")
@@ -142,6 +189,8 @@ js_install_successfull = install_node_js()
 if js_install_successfull:
     js_dependencies_install_successfull = install_js_dependencies() # Make sure JSDoc and JSDoc-sphinx installed
     generate_jsdoc_rsts()
+
+pyapi_rst_success = generate_pydoc_rsts()  # generate rst files for specified python project
 
 generate_index_rst()
 build_successful = run_build()
