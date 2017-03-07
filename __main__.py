@@ -13,7 +13,7 @@ def load_configuration():
     configuration = {}
     with open(utility_dir + "/default.config.yml", 'r') as stream:
         configuration = yaml.load(stream)
-    
+
     print(configuration)
     #configuration.update(yaml.load(os.getcwd() + './documentation.config.yaml'))
     return configuration
@@ -61,7 +61,7 @@ def install_node_js():
             return True
         else:
             return False
-        
+
         print(os.getcwd())
 
 def install_js_dependencies():
@@ -85,6 +85,42 @@ def generate_jsdoc_rsts():
         "-c", utility_dir + "/jsdoc.config.json",
         "-r",
         current_dir + "/" + configuration.get('javascript_root_directory','')])
+
+
+def add_path_to_conf():
+    old = utility_dir + '/docs/conf.py'
+    new = utility_dir + '/docs/tmp_conf.py'
+    done = False
+    # first check the file to see if it already has a sys.path.insert line
+    with open(old, 'r') as o:
+        for line in o:
+            if line.startswith('sys.path.insert'):
+                if configuration.get('python_project_directory') in line:
+                    done = True
+                    break
+    if not done:
+        with open(old, 'r') as f:
+            with open(new, 'w') as w:
+                blank = False
+                for line in f:
+                    w.write(line)
+                    if not line.startswith('#'):
+                        if not blank:
+                            comm = "import os\nimport sys\nsys.path.insert(0, os.path.abspath('" + \
+                                    configuration.get('python_project_directory') + "'))\n"
+                            w.write(comm)
+                            blank = True
+        os.rename(new, old)
+
+
+def generate_pydoc_rsts():
+    print("Compiling PyDoc reference to RST, ")
+    print(current_dir)
+    result = subprocess.run(['sphinx-apidoc', '-e', '-o', utility_dir + '/docs/pydoc',
+                             configuration.get('python_project_directory')])
+    print(result)
+    add_path_to_conf()
+
 
 def run_build():
     print("Running build")
@@ -119,11 +155,13 @@ if not install_successful:
 # TODO : Sphinx-build -> HTML
 
 configuration = load_configuration()
-js_install_successfull = install_node_js()
+#js_install_successfull = install_node_js()
 
-if js_install_successfull:
-    js_dependencies_install_successfull = install_js_dependencies() # Make sure JSDoc and JSDoc-sphinx installed
-    generate_jsdoc_rsts()
+#if js_install_successfull:
+#    js_dependencies_install_successfull = install_js_dependencies() # Make sure JSDoc and JSDoc-sphinx installed
+#    generate_jsdoc_rsts()
+
+pyapi_rst_success = generate_pydoc_rsts()  # generate rst files for specified python project
 
 build_successful = run_build()
 

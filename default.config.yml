@@ -7,6 +7,7 @@ documentation_directory : "./docs/" # Where output and other documentation files
 output_directory : "./documentation/"
 
 javascript_root_directory : "./src/encoded/static/components" # Fourfront JS directory
+python_project_directory : "./src/encoded"
 
 # Define what each section in nav-menu contains.
 sections : [
@@ -18,5 +19,9 @@ sections : [
     {
         "title" : "Basic Usage",
         "path" : "./docs/usage.md"
+    },
+    {
+        "title": "PyDoc",
+        "path" : "./docs/"
     }
 ]
