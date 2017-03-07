@@ -1,9 +1,14 @@
+# This is the default configuration.
+# Please make a copy of this file and put it into your project's root directory,
+# replacing any fields with your own values. Fields which are empty or nonexistant
+# will be filled with the default values listed here.
+
 
 project_version : 0.1
 project_author : "HMS-DBMI"
 project_name : "Sample Project To Document"  # Project Name
 
-documentation_directory : "./docs/"          # Where auxiliary static docs are located
+documentation_directory : "./docs/"          # Where auxiliary static docs are located (needed? since using sections below)
 output_directory : "./documentation/"        # Save output here
 
 python_project_directory : "./src/encoded"
