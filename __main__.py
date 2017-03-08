@@ -174,7 +174,7 @@ def generate_static_docs_index_rst():
     template = jinja_env.get_template("static_docs_index_template.rst")
     with open(utility_dir + "/generated_docs/static_documentation_contents.rst", 'w') as indexFile:
         indexFile.write(template.render(
-            sections = sections
+            sections = [ s for s in sections if s['saveAs'][0:6].lower() != 'readme' ]
         ))
 
 def generate_index_rst():
@@ -183,7 +183,8 @@ def generate_index_rst():
         indexFile.write(template.render(
             title=configuration.get('project_name',"No Project Name Specified"),
             js_is_documented=js_install_successfull,
-            sections = sections
+            sections = sections,
+            readme = os.path.abspath(utility_dir + '/generated_docs/' + readmePath)
         ))
 
 
@@ -246,6 +247,13 @@ pyapi_rst_success = generate_pydoc_rsts()  # generate rst files for specified py
 
 # Copy over static pages & docs.
 sections = copy_static_docs()
+readmePath = None
+
+try:
+    readmePath = [ s for s in sections if s.get('saveAs','').lower()[0:6] == 'readme' ][0]['saveAs']
+except:
+    pass
+
 generate_static_docs_index_rst()
 
 # Generate homepage with appropriate project name, etc.

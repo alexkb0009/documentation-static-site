@@ -10,14 +10,18 @@ Documentation for {{ title }}
 .. toctree::
    :maxdepth: 2
 
-   {% for section in sections %}
-   {{ section.saveAs }}
-   {% endfor %}
+   static_documentation_contents
    jsdoc/index
    pydoc/modules
    
 
+{% if readme %}
+README
+======
 
+.. include:: <{{readme}}>
+
+{% endif %}
 
 Indices and tables
 ==================

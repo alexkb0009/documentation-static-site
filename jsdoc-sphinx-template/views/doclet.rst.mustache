@@ -11,6 +11,12 @@ Member Of :doc:`{{doclet.parentRstLink}}`
 .. contents:: Local Navigation
    :local:
 
+
+{{#h2}}Description{{/h2}}
+
+{{doclet.description}}
+
+
 {{#h2}}Children{{/h2}}
 
 .. toctree::
@@ -19,11 +25,10 @@ Member Of :doc:`{{doclet.parentRstLink}}`
    {{> toctreeChildren }}
    {{/pre}}
 
-{{#h2}}Description{{/h2}}
 
-{{doclet.description}}
 
-{{#h2}}Functions{{/h2}}
+{{#function.length}}{{#h2}}Functions{{/h2}}{{/function.length}}
+
 {{#function}}
 {{>func}}
 {{/function}}
