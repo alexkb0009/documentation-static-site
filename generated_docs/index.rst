@@ -4,13 +4,27 @@
    contain the root `toctree` directive.
 
 
-Welcome to 4D Nucleome Portal's documentation!
-===============================================================
+Documentation for 4D Nucleome Portal
+=============================
 
 .. toctree::
    :maxdepth: 2
 
-   static_documentation_contents
+   
+   README.rst
+   
+   overview.rst
+   
+   beanstalk-deployment.md
+   
+   database.rst
+   
+   object-lifecycle.rst
+   
+   authentication.rst
+   
+   invalidation.rst
+   
    jsdoc/index
    pydoc/modules
    

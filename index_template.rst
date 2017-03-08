@@ -10,7 +10,9 @@ Documentation for {{ title }}
 .. toctree::
    :maxdepth: 2
 
-   static_documentation_contents
+   {% for section in sections %}
+   {{ section.saveAs }}
+   {% endfor %}
    jsdoc/index
    pydoc/modules
    

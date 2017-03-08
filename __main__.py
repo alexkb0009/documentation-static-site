@@ -114,7 +114,7 @@ def generate_jsdoc_rsts():
         current_dir + "/" + configuration.get('javascript_root_directory','')])
 
 
-def add_path_to_conf():
+def add_path_to_conf(python_dir):
     old = utility_dir + '/generated_docs/conf.py'
     new = utility_dir + '/generated_docs/tmp_conf.py'
     done = False
@@ -122,9 +122,11 @@ def add_path_to_conf():
     with open(old, 'r') as o:
         for line in o:
             if line.startswith('sys.path.insert'):
-                if configuration.get('python_project_directory') in line:
-                    done = True
-                    break
+                done = True
+                break
+                #if configuration.get('python_project_directory') in line:
+                #    done = True
+                #    break
     if not done:
         with open(old, 'r') as f:
             with open(new, 'w') as w:
@@ -133,8 +135,7 @@ def add_path_to_conf():
                     w.write(line)
                     if not line.startswith('#'):
                         if not blank:
-                            comm = "import os\nimport sys\nsys.path.insert(0, os.path.abspath('" + \
-                                    configuration.get('python_project_directory') + "'))\n"
+                            comm = "import os\nimport sys\nsys.path.insert(0, '" + os.path.abspath(current_dir + '/' + configuration.get('python_project_directory','.') + '/..') + "')\n"
                             w.write(comm)
                             blank = True
         os.rename(new, old)
@@ -143,21 +144,21 @@ def add_path_to_conf():
 def generate_pydoc_rsts():
     print("Compiling PyDoc reference to RST, ")
     python_dir = os.path.abspath(current_dir + '/' + configuration.get('python_project_directory','.'))
-    print(python_dir)
-    import sys
-    sys.path.insert(0, os.path.abspath(python_dir + "/.."))
-    sys.path.insert(0, python_dir)
+    #print(python_dir)
+    #import sys
+    #sys.path.insert(0, os.path.abspath(python_dir + "/.."))
+    #sys.path.insert(0, python_dir)
     #sys.path.append(os.path.join(current_dir, '..'))
     
     result = subprocess.run([
         'sphinx-apidoc', '-e', '-a', '--implicit-namespaces',
-        "-H", configuration.get('project_name',"No Project Name Specified"),
+        "-H", "Python API Reference",
         "-V", str(configuration.get('project_version', "1")),
         "-A", configuration.get('project_author', "HMS-DBMI"),
         '-o', utility_dir + '/generated_docs/pydoc',
         python_dir
     ])
-    #add_path_to_conf()
+    add_path_to_conf(python_dir)
 
 def copy_static_docs():
     sections_with_docs = []
@@ -193,7 +194,7 @@ def run_build():
         "-b", "html",
         "-D", "project=" + configuration.get('project_name',"No Project Name Specified"),
         "-D", "author=" + configuration.get('project_author', "HMS-DBMI"),
-        "-D", "copyright=2017 HMS-DBMI",
+        "-D", "copyright=2017, HMS-DBMI",
         utility_dir + "/generated_docs",
         current_dir + '/' + configuration.get('output_directory',"generated_documentation")
     ])
