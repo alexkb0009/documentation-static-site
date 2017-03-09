@@ -9,20 +9,23 @@
 Member Of :doc:`{{doclet.parentRstLink}}`
 {{/doclet.parentRstLink}}
 
+
 .. toctree::
    :maxdepth: 3
    {{#pre}}
    {{> toctreeChildren }}
    {{/pre}}
 
+
 .. contents:: Local Navigation
    :local:
 
 
-
+{{#doclet.description}}
 {{#h2}}Description{{/h2}}
 
 {{doclet.description}}
+{{/doclet.description}}
 
 {{#function.length}}{{#h2}}Functions{{/h2}}{{/function.length}}
 
@@ -30,11 +33,12 @@ Member Of :doc:`{{doclet.parentRstLink}}`
 {{>func}}
 {{/function}}
 
-
+{{#orangeisblue}}
 {{#h2}}Members{{/h2}}
 {{#member}}
 {{>member}}
 {{/member}}
+{{/orangeisblue}}
 
 {{#constant}}
 {{>constant}}
