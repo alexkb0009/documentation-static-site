@@ -3,9 +3,8 @@ var helper = require('jsdoc/util/templateHelper');
 var logger = require('jsdoc/util/logger');
 
 var mainDocletKinds = ['class', 'module', 'external', 'namespace',
-  'mixin', 'interface'];
-var subDocletKinds = ['function', 'member', 'constant', 'attribute', 'typedef',
-  'type'];
+  'mixin', 'interface','component'];
+var subDocletKinds = ['function', 'member', 'constant', 'attribute', 'typedef'];
 
 module.exports = {
   docletChildren: docletChildren,

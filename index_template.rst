@@ -4,7 +4,7 @@
    contain the root `toctree` directive.
 
 
-Documentation for {{ title }}
+{{ title }}
 =============================
 
 .. toctree::
@@ -16,8 +16,8 @@ Documentation for {{ title }}
    
 
 {% if readme %}
-README
-======
+Getting Started
+===============
 
 .. include:: <{{readme}}>
 

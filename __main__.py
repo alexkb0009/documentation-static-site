@@ -29,8 +29,6 @@ def load_configuration():
     except Exception as e:
         print(e)
 
-    print(configuration)
-    #configuration.update(yaml.load(os.getcwd() + './documentation.config.yaml'))
     return configuration
 
 # Install dependencies
@@ -49,11 +47,11 @@ def install_node_js():
     try:
         result = subprocess.run(["node", "-v"])
         if result.returncode == 0:
-            print("Node.js is installed.")
+            print("Node.js is installed. Will create JS API Reference.")
             is_node_installed = True
             return True
     except:
-        # Not installed.
+        print("Node.js is NOT installed. Will NOT create JS API Reference.")
         is_node_installed = False
         return False
 
@@ -144,11 +142,6 @@ def add_path_to_conf(python_dir):
 def generate_pydoc_rsts():
     print("Compiling PyDoc reference to RST, ")
     python_dir = os.path.abspath(current_dir + '/' + configuration.get('python_project_directory','.'))
-    #print(python_dir)
-    #import sys
-    #sys.path.insert(0, os.path.abspath(python_dir + "/.."))
-    #sys.path.insert(0, python_dir)
-    #sys.path.append(os.path.join(current_dir, '..'))
     
     result = subprocess.run([
         'sphinx-apidoc', '-e', '-a', '--implicit-namespaces',
@@ -163,17 +156,20 @@ def generate_pydoc_rsts():
 def copy_static_docs():
     sections_with_docs = []
     for section in configuration.get('sections', []):
-        print(section['path'])
-        print(os.path.abspath(utility_dir + "/generated_docs/" + section['saveAs']))
+        #print(section['path'])
+        #print(os.path.abspath(utility_dir + "/generated_docs/" + section['saveAs']))
         if os.path.isfile(section['path']):
             sections_with_docs.append(section)
             shutil.copyfile(section['path'], os.path.abspath(utility_dir + "/generated_docs/" + section['saveAs']))
+        else:
+            print("Could not find '" + str(section['path']) + "' in current directory '" + str(current_dir) + "'.")
     return sections_with_docs
 
 def generate_static_docs_index_rst():
     template = jinja_env.get_template("static_docs_index_template.rst")
     with open(utility_dir + "/generated_docs/static_documentation_contents.rst", 'w') as indexFile:
         indexFile.write(template.render(
+            title = str(configuration.get("homepage_toc_sections_title", "Documents")),
             sections = [ s for s in sections if s['saveAs'][0:6].lower() != 'readme' ]
         ))
 
@@ -181,7 +177,7 @@ def generate_index_rst():
     template = jinja_env.get_template("index_template.rst")
     with open(utility_dir + "/generated_docs/index.rst", 'w') as indexFile:
         indexFile.write(template.render(
-            title=configuration.get('project_name',"No Project Name Specified"),
+            title=str(configuration.get("homepage_toc_title", "Documentation")),
             js_is_documented=js_install_successfull,
             sections = sections,
             readme = os.path.abspath(utility_dir + '/generated_docs/' + readmePath)
@@ -189,20 +185,25 @@ def generate_index_rst():
 
 
 def run_build():
+    from datetime import date
     print("Running build")
+    target_html_directory = os.path.abspath(current_dir + '/' + configuration.get('output_directory',"generated_documentation"))
     result = subprocess.run([
         "sphinx-build",
         "-b", "html",
         "-D", "project=" + configuration.get('project_name',"No Project Name Specified"),
         "-D", "author=" + configuration.get('project_author', "HMS-DBMI"),
-        "-D", "copyright=2017, HMS-DBMI",
+        "-D", "copyright=" + str(date.today().year) + ", " + configuration.get('project_author', "HMS-DBMI"),
         utility_dir + "/generated_docs",
-        current_dir + '/' + configuration.get('output_directory',"generated_documentation")
+        target_html_directory
     ])
     if (result.returncode == 0):
-        print('Successfully generated HTML files!')
+        print("Successfully generated HTML documentation to '" + target_html_directory + "/index.html'.")
+        print("Point your browser to that file ^.")
+        #print("  Copy & paste it to gh-pages branch.\n  Upload it to an S3 bucket, or anywhere else, and point a subdomain to it.")
         return True
     else:
+        print("Something somewhere went wrong.")
         result.check_returncode()
         return False
 
@@ -243,7 +244,7 @@ if js_install_successfull:
     generate_jsdoc_rsts()
 
 # Generate PyDoc reference.
-pyapi_rst_success = generate_pydoc_rsts()  # generate rst files for specified python project
+#pyapi_rst_success = generate_pydoc_rsts()  # generate rst files for specified python project
 
 # Copy over static pages & docs.
 sections = copy_static_docs()
@@ -262,4 +263,3 @@ generate_index_rst()
 # Output to HTML
 build_successful = run_build()
 
-print("Finished successfully. Shutting down.")

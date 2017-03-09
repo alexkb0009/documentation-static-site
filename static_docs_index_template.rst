@@ -1,6 +1,6 @@
 
-Pages
-=====
+{{ title }}
+============
 
 .. toctree::
    :maxdepth: 2

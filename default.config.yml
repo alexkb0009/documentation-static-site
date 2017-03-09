@@ -26,3 +26,7 @@ sections : [
         "saveAs" : "beanstalk-deployment.md"
     }
 ]
+
+# Semantics, Styling, etc.
+homepage_toc_title : "Contents"
+homepage_toc_sections_title : "Tutorials and Other Documents"

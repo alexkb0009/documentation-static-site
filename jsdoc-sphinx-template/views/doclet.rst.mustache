@@ -2,30 +2,27 @@
 .. _{{doclet.rstReference}}:
 
 {{/doclet.rstReference}}
-{{#h1}}{{#titlecase}}{{doclet.kind}}{{/titlecase}}: ``{{doclet.name}}``{{/h1}}
+{{#h1}}{{#titlecase}}{{#doclet.type}}{{#doclet.type.names}}{{.}}{{/doclet.type.names}}{{/doclet.type}}{{^doclet.type}}{{doclet.kind}}{{/doclet.type}}{{/titlecase}}: ``{{doclet.name}}``{{/h1}}
+
 
 {{#doclet.parentRstLink}}
 Member Of :doc:`{{doclet.parentRstLink}}`
 {{/doclet.parentRstLink}}
 
+.. toctree::
+   :maxdepth: 3
+   {{#pre}}
+   {{> toctreeChildren }}
+   {{/pre}}
+
 .. contents:: Local Navigation
    :local:
+
 
 
 {{#h2}}Description{{/h2}}
 
 {{doclet.description}}
-
-
-{{#h2}}Children{{/h2}}
-
-.. toctree::
-   :maxdepth: 1
-   {{#pre}}
-   {{> toctreeChildren }}
-   {{/pre}}
-
-
 
 {{#function.length}}{{#h2}}Functions{{/h2}}{{/function.length}}
 

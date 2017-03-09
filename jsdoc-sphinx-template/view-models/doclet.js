@@ -17,11 +17,13 @@ function docletModel(doclet) {
       // (doclet.kind === 'module' ? {} :
       //   util.docletChildren(context, doclet, util.subDocletKinds)
       // ), {
-      util.docletChildren(context, doclet, util.subDocletKinds), {
+      util.docletChildren(context, doclet, util.subDocletKinds),
+      {
         doclet: doclet,
         example: util.example
       }
     );
+    //console.log(viewModel.doclet.type);
     util.view('doclet.rst', viewModel, cb);
   };
 }
