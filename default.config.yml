@@ -6,13 +6,29 @@
 
 project_version : 0.1
 project_author : "HMS-DBMI"
-project_name : "Sample Project To Document"  # Project Name
+project_name : "Sample Project To Document"     # Project Name
 
-output_directory : "./documentation/"        # Save output here
+output_directory : "./documentation/"           # Save output here
 
-python_project_directory : "./src/encoded/types"
+# Python API Reference Settings
+python_project_directory : "./src/encoded"      # Root package of your python project.
+python_sys_inserts : [                          # If using a virtualenv, add all dependency paths here.
+
+]
+# For example :
+# python_sys_inserts : [
+#   '/Users/alex/4dn_portal/eggs/pyramid-1.6a2-py3.6.egg',
+#   '/Users/alex/4dn_portal/eggs/waitress-0.8.10-py3.6.egg',
+#   '/Users/alex/4dn_portal/eggs/psycopg2-2.6.1-py3.6-macosx-10.12-x86_64.egg',
+#   ...
+# ]
+
+
+# JavaScript API Settings
 javascript_root_directory : "./src/encoded/static/components/viz" # Fourfront JS directory
 
+
+# Static Documents Settings
 # Define what each section in nav-menu contains.
 sections : [
     {

@@ -119,7 +119,7 @@ def add_path_to_conf(python_dir):
     # first check the file to see if it already has a sys.path.insert line
     with open(old, 'r') as o:
         for line in o:
-            if line.startswith('sys.path.insert'):
+            if line.startswith('sys.path[0:0]'):
                 done = True
                 break
                 #if configuration.get('python_project_directory') in line:
@@ -133,8 +133,9 @@ def add_path_to_conf(python_dir):
                     w.write(line)
                     if not line.startswith('#'):
                         if not blank:
-                            #TODO : Change to this AND array of configuration.sys_inserts. See bin/pserve in fourfront repository.
-                            comm = "import os\nimport sys\nsys.path.insert(0, '" + os.path.abspath(current_dir + '/' + configuration.get('python_project_directory','.') + '/..') + "')\n"
+                            comm = "import os\nimport sys\nsys.path[0:0]=[ "\
+                            + ', '.join([ '"' + str(os.path.abspath(x)) + '"' for x in configuration.get('python_sys_inserts',[])]) \
+                            + "]\n"
                             w.write(comm)
                             blank = True
         os.rename(new, old)
@@ -264,3 +265,5 @@ generate_index_rst()
 # Output to HTML
 build_successful = run_build()
 
+# Cleanup again
+cleanup_rst_directory()
