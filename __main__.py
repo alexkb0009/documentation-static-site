@@ -133,6 +133,7 @@ def add_path_to_conf(python_dir):
                     w.write(line)
                     if not line.startswith('#'):
                         if not blank:
+                            #TODO : Change to this AND array of configuration.sys_inserts. See bin/pserve in fourfront repository.
                             comm = "import os\nimport sys\nsys.path.insert(0, '" + os.path.abspath(current_dir + '/' + configuration.get('python_project_directory','.') + '/..') + "')\n"
                             w.write(comm)
                             blank = True
@@ -244,7 +245,7 @@ if js_install_successfull:
     generate_jsdoc_rsts()
 
 # Generate PyDoc reference.
-#pyapi_rst_success = generate_pydoc_rsts()  # generate rst files for specified python project
+pyapi_rst_success = generate_pydoc_rsts()  # generate rst files for specified python project
 
 # Copy over static pages & docs.
 sections = copy_static_docs()
