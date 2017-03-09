@@ -114,6 +114,7 @@ def generate_jsdoc_rsts():
 
 def add_path_to_conf(python_dir):
     old = utility_dir + '/generated_docs/conf.py'
+    shutil.copyfile(utility_dir + '/base_conf.py', old)
     new = utility_dir + '/generated_docs/tmp_conf.py'
     done = False
     # first check the file to see if it already has a sys.path.insert line
@@ -195,6 +196,7 @@ def run_build():
         "-b", "html",
         "-D", "project=" + configuration.get('project_name',"No Project Name Specified"),
         "-D", "author=" + configuration.get('project_author', "HMS-DBMI"),
+        "-D", "version=" + str(configuration.get('project_version', "None")),
         "-D", "copyright=" + str(date.today().year) + ", " + configuration.get('project_author', "HMS-DBMI"),
         utility_dir + "/generated_docs",
         target_html_directory

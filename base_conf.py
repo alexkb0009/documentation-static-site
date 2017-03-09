@@ -17,9 +17,6 @@
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
 
-import os
-import sys
-sys.path[0:0]=[ "/Users/alex/4dn_portal/eggs/SPARQLWrapper-1.7.6-py3.6.egg", "/Users/alex/4dn_portal/src", "/Users/alex/4dn_portal/eggs/pyramid-1.6a2-py3.6.egg", "/Users/alex/4dn_portal/eggs/waitress-0.8.10-py3.6.egg", "/Users/alex/4dn_portal/eggs/psycopg2-2.6.1-py3.6-macosx-10.12-x86_64.egg", "/Users/alex/4dn_portal/eggs/repoze.debug-1.0.2-py3.6.egg", "/Users/alex/4dn_portal/eggs/setuptools-18.1-py3.6.egg", "/Users/alex/4dn_portal/eggs/rutter-0.2-py3.6.egg", "/Users/alex/4dn_portal/eggs/pyramid_translogger-0.1-py3.6.egg", "/Users/alex/4dn_portal/eggs/WebOb-1.6.0-py3.6.egg", "/Users/alex/4dn_portal/eggs/PasteDeploy-1.5.2-py3.6.egg", "/Users/alex/4dn_portal/eggs/translationstring-1.3-py3.6.egg", "/Users/alex/4dn_portal/eggs/venusian-1.0.1.dev40-py3.6.egg", "/Users/alex/4dn_portal/eggs/zope.deprecation-4.1.2-py3.6.egg", "/Users/alex/4dn_portal/eggs/zope.interface-4.1.3-py3.6-macosx-10.12-x86_64.egg", "/Users/alex/4dn_portal/eggs/repoze.lru-0.6-py3.6.egg", "/Users/alex/4dn_portal/eggs/PyJWT-1.4.2-py3.6.egg", "/Users/alex/4dn_portal/eggs/zope.sqlalchemy-0.7.6-py3.6.egg", "/Users/alex/4dn_portal/eggs/xlrd-0.9.4-py3.6.egg", "/Users/alex/4dn_portal/eggs/subprocess_middleware-0.3-py3.6.egg", "/Users/alex/4dn_portal/eggs/strict_rfc3339-0.6-py3.6.egg", "/Users/alex/4dn_portal/eggs/simplejson-3.8.2-py3.6-macosx-10.12-x86_64.egg", "/Users/alex/4dn_portal/eggs/rfc3987-1.3.5-py3.6.egg", "/Users/alex/4dn_portal/eggs/rdflib_jsonld-0.3-py3.6.egg", "/Users/alex/4dn_portal/eggs/rdflib-4.2.2.dev0-py3.6.egg", "/Users/alex/4dn_portal/eggs/pytz-2016.3-py3.6.egg", "/usr/local/lib/python3.6/site-packages", "/Users/alex/4dn_portal/eggs/pyramid_tm-0.12.1-py3.6.egg", "/Users/alex/4dn_portal/eggs/pyramid_multiauth-0.8.0-py3.6.egg", "/Users/alex/4dn_portal/eggs/pyramid_localroles-0.1-py3.6.egg", "/Users/alex/4dn_portal/eggs/psutil-4.1.0-py3.6-macosx-10.12-x86_64.egg", "/Users/alex/4dn_portal/eggs/passlib-1.6.5-py3.6.egg", "/Users/alex/4dn_portal/eggs/cryptacular-1.4.1-py3.6-macosx-10.12-x86_64.egg", "/Users/alex/4dn_portal/eggs/bcrypt-2.0.0-py3.6-macosx-10.12-x86_64.egg", "/Users/alex/4dn_portal/eggs/netaddr-0.7.18-py3.6.egg", "/Users/alex/4dn_portal/eggs/loremipsum-1.0.5-py3.6.egg", "/Users/alex/4dn_portal/eggs/jsonschema_serialize_fork-2.1.1-py3.6.egg", "/Users/alex/4dn_portal/eggs/humanfriendly-1.44.5-py3.6.egg", "/Users/alex/4dn_portal/eggs/future-0.15.2-py3.6.egg", "/Users/alex/4dn_portal/eggs/lucenequery-0.1-py3.6.egg", "/Users/alex/4dn_portal/eggs/elasticsearch-2.3.0-py3.6.egg", "/Users/alex/4dn_portal/eggs/boto3-1.4.4-py3.6.egg", "/Users/alex/4dn_portal/eggs/jmespath-0.9.0-py3.6.egg", "/Users/alex/4dn_portal/eggs/botocore-1.5.7-py3.6.egg", "/Users/alex/4dn_portal/eggs/boto-2.45.0-py3.6.egg", "/Users/alex/4dn_portal/eggs/WebTest-2.0.20-py3.6.egg", "/Users/alex/4dn_portal/eggs/WSGIProxy2-0.4.2-py3.6.egg", "/Users/alex/4dn_portal/eggs/SQLAlchemy-1.0.12-py3.6-macosx-10.12-x86_64.egg", "/Users/alex/4dn_portal/eggs/PyBrowserID-0.10.0-py3.6.egg", "/Users/alex/4dn_portal/eggs/Pillow-3.1.1-py3.6-macosx-10.12-x86_64.egg", "/Users/alex/4dn_portal/develop/snovault/src", "/Users/alex/4dn_portal/eggs/keepalive-0.5-py3.6.egg", "/Users/alex/4dn_portal/eggs/transaction-1.4.4-py3.6.egg", "/Users/alex/4dn_portal/eggs/pyparsing-2.1.1-py3.6.egg", "/Users/alex/4dn_portal/eggs/isodate-0.5.4-py3.6.egg", "/Users/alex/4dn_portal/eggs/pbkdf2-1.3-py3.6.egg", "/Users/alex/4dn_portal/eggs/cffi-1.6.0-py3.6-macosx-10.12-x86_64.egg", "/Users/alex/4dn_portal/eggs/antlr4_python3_runtime-4.5.2.1-py3.6.egg", "/Users/alex/4dn_portal/eggs/urllib3-1.14-py3.6.egg", "/Users/alex/4dn_portal/eggs/docutils-0.12-py3.6.egg", "/Users/alex/4dn_portal/eggs/python_dateutil-2.5.1-py3.6.egg", "/Users/alex/4dn_portal/eggs/beautifulsoup4-4.4.1-py3.6.egg", "/Users/alex/4dn_portal/eggs/requests-2.9.1-py3.6.egg", "/Users/alex/4dn_portal/eggs/awscli-1.11.44-py3.6.egg", "/Users/alex/4dn_portal/eggs/pycparser-2.14-py3.6.egg", "/Users/alex/4dn_portal/eggs/rsa-3.3-py3.6.egg", "/Users/alex/4dn_portal/eggs/colorama-0.3.3-py3.6.egg", "/Users/alex/4dn_portal/eggs/pyasn1-0.1.9-py3.6.egg"]
 
 # -- General configuration ------------------------------------------------
 
@@ -101,12 +98,12 @@ html_theme = 'classic'
 # documentation.
 #
 html_theme_options = {
-    "sidebarbgcolor": "#8c1829",
+    "sidebarbgcolor": "#711422",
     "collapsiblesidebar" : True,
     "sidebarlinkcolor" : "#FFF",
     "sidebartextcolor" : "#EEE",
-    "sidebarbtncolor" : "rgb(130, 29, 45)",
-    "relbarbgcolor" : "#671421"
+    "sidebarbtncolor" : "#711422",
+    "relbarbgcolor" : "rgb(130, 29, 45)"
 }
 
 # Add any paths that contain custom static files (such as style sheets) here,
